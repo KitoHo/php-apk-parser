@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the Apk Parser package.
  *
@@ -12,5 +13,7 @@ include 'autoload.php';
 
 $apk = new ApkParser\Parser('EBHS.apk');
 
-header("Content-Type:text/xml;Charset=UTF-8");
-echo $apk->getManifest()->getXmlString();
+echo '<pre>';
+foreach ($apk->getManifest()->getApplication()->getActivityNameList() as $activityName) {
+    echo $activityName . PHP_EOL;
+}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the Apk Parser package.
  *
@@ -9,10 +10,11 @@
  */
 
 include 'autoload.php';
-
 $apk = new \ApkParser\Parser('EBHS.apk');
-$extractFolder = 'extract_folder';
+$resourceId = $apk->getManifest()->getApplication()->getIcon();
+$resources = $apk->getResources($resourceId);
 
-if (is_dir($extractFolder) || mkdir($extractFolder)) {
-    $apk->extractTo($extractFolder);
+header('Content-type: text/html');
+foreach ($resources as $resource) {
+    echo '<img src="data:image/png;base64,', base64_encode(stream_get_contents($apk->getStream($resource))), '" />';
 }
